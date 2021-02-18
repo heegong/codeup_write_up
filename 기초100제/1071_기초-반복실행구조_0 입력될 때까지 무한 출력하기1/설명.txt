@@ -1,0 +1,32 @@
+이게 왜 
+1 2 3 4 0
+이라고 입력했을때
+출력이 잘 되는가 하면
+```
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <time.h>
+
+void delay(unsigned int sec)  
+{
+    clock_t ticks1 = clock();
+    clock_t ticks2 = ticks1;
+    while ((ticks2 / CLOCKS_PER_SEC - ticks1 / CLOCKS_PER_SEC) < (clock_t)sec)
+        ticks2 = clock();
+}
+
+int main() {
+    setvbuf(stdout, NULL, _IOFBF, 2);
+    int n;
+LABEL1:
+    scanf("%d", &n);
+    if (n) {
+        printf("%d\n", n);
+        goto LABEL1;
+    }
+    delay(3);
+    return 0;
+}
+```
+
+이러한 코드로 테스트 해볼 수 있다. 바로 출력 버퍼에 쌓였다가 출력되는걸 볼 수 있다. ㅎㅎ
