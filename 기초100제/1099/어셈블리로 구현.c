@@ -11,16 +11,13 @@ int main()
 	int i, j;
 	int food_x, food_y;
 	int x, y;
-	char and_1, and_2;
 	__asm {
 		mov dword ptr[i], 0;							// int i
 		mov dword ptr[j], 0;							// int j
 		mov dword ptr[food_x], 0;						// int food_x
 		mov dword ptr[food_y], 0;						// int food_y
-		mov dword ptr[x], 1;						// int x
-		mov dword ptr[y], 1;						// int y
-		//mov byte ptr[and_1], 0;							// ifø°º≠ and∏¶ ¿ß«ÿ ∏∏µÎ			55d
-		//mov byte ptr[and_2], 0;							// ifø°º≠ and∏¶ ¿ß«ÿ ∏∏µÎ			569
+		mov dword ptr[x], 1;							// int x
+		mov dword ptr[y], 1;							// int y
 		mov dword ptr[array], 0;						// int array[15][15]
 		jmp FOR_1_START;
 
@@ -56,9 +53,9 @@ int main()
 		lea edx, dd;
 
 		push eax;
-		push edx;					// dd
+		push edx;								// dd
 		call scanf;
-		add esp, 8;					//scanf("%d",eax);
+		add esp, 8;								//scanf("%d",eax);
 		
 		imul eax, dword ptr[i], 60;						// 60 = 15*4
 		lea ecx, array[eax];
@@ -88,7 +85,7 @@ int main()
 	FOR_1:
 
 
-	// whileπÆ Ω√¿€
+	// whileÎ¨∏ ÏãúÏûë
 	main_CF:
 		mov eax, 1;
 		test eax, eax;
@@ -154,7 +151,7 @@ int main()
 	main_188:
 		jmp main_CF;
 
-	main_18D:															// for µπ∏±∂ß ∞≈±‚¿”
+	main_18D:															// for ÎèåÎ¶¥Îïå Í±∞Í∏∞ÏûÑ
 		mov dword ptr[i], 0;
 		jmp main_19F;
 
@@ -204,7 +201,7 @@ int main()
 
 	main_1ED:
 		xor eax, eax;						// return 0
-		// ¡æ∑· ¡ˆ¡°
+		// Ï¢ÖÎ£å ÏßÄÏ†ê
 	}
 
 }
