@@ -1,9 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 
-char escape_n[2] = "\n";
+char escape_n[2] = " ";
 char dd[4] = "%d";
 char d_space[4] = "%d ";
+
 
 int main()
 {
@@ -11,18 +12,20 @@ int main()
 	int i, j;
 	int food_x, food_y;
 	int x, y;
+
+
 	__asm {
 		mov dword ptr[i], 0;							// int i
 		mov dword ptr[j], 0;							// int j
 		mov dword ptr[food_x], 0;						// int food_x
 		mov dword ptr[food_y], 0;						// int food_y
-		mov dword ptr[x], 1;							// int x
-		mov dword ptr[y], 1;							// int y
+		mov dword ptr[x], 1;						// int x
+		mov dword ptr[y], 1;						// int y
 		mov dword ptr[array], 0;						// int array[15][15]
 		jmp FOR_1_START;
 
 		
-	main_57:
+	cmp_i_and_setting:
 
 		mov eax, dword ptr[i];
 		inc eax;
@@ -33,15 +36,15 @@ int main()
 	FOR_1_START :
 
 		mov dword ptr[j], 0;
-		jmp main_E8;
+		jmp cmp_j;
 
-	main_6F:
+	j_for:
 
 		mov eax, dword ptr[j];
 		inc eax;
 		mov dword ptr[j], eax;
 
-	main_E8:
+	cmp_j:
 		cmp dword ptr[j], 0xA;
 		jge FOR_2;
 
@@ -53,43 +56,41 @@ int main()
 		lea edx, dd;
 
 		push eax;
-		push edx;								// dd
+		push edx;					// dd
 		call scanf;
-		add esp, 8;								//scanf("%d",eax);
+		add esp, 8;					//scanf("%d",eax);
 		
 		imul eax, dword ptr[i], 60;						// 60 = 15*4
 		lea ecx, array[eax];
 		mov edx, dword ptr[j];
 		cmp dword ptr [ecx + edx * 4], 2;
-		jne main_CB;
+		jne continue__;
 
 
 		//food_x = j
-		mov byte ptr[and_1], 1;
 		mov eax, dword ptr[j];
 		mov dword ptr[food_x], eax;
 
 		//food_y = i
-		mov byte ptr[and_2], 1;
 		mov eax, dword ptr[i];
 		mov dword ptr[food_y], eax;
 
 
-	main_CB:
-		jmp main_6F;
+	continue__:
+		jmp j_for;
 
 	FOR_2:
-		jmp main_57;
+		jmp cmp_i_and_setting;
 
 
 	FOR_1:
 
 
 	// while문 시작
-	main_CF:
+	while_start:
 		mov eax, 1;
 		test eax, eax;
-		je main_18D;
+		je eax_1;
 
 		imul eax, dword ptr[y], 60;
 		lea ecx, array[eax];
@@ -98,83 +99,83 @@ int main()
 		
 		mov eax, dword ptr[food_x];
 		cmp eax, dword ptr[x];
-		jne main_12F;
+		jne location_food;
 
 		mov eax, dword ptr[food_y];
 		cmp eax, dword ptr[y];
-		jne main_12F;
+		jne location_food;
 
-		jmp main_18D;
+		jmp eax_1;
 
 
-	main_12F:
+	location_food:
 		mov eax, dword ptr[y];
 		inc eax;
 		imul ecx, eax, 60;
 		lea edx, array[ecx];
 		mov eax, dword ptr[x];
 		cmp dword ptr[edx + eax * 4], 1;
-		jne main_15F;
+		jne x_1_y_1;
 		imul eax, dword ptr[y], 60;
 		lea ecx, array[eax];
 		mov edx, dword ptr[x];
 		cmp dword ptr[ecx + edx * 4 + 4], 1;
-		jne main_15F;
+		jne x_1_y_1;
 
 
 
-		jmp main_18D;
+		jmp eax_1;
 
 
 
-	main_15F:
+	x_1_y_1:
 		imul eax, dword ptr[y], 60;
 		lea ecx, array[eax];
 		mov edx, dword ptr[x];
 		cmp dword ptr[ecx + edx * 4 + 4], 1;
-		je main_17F;
+		je plus_y;
 
 		//x++
 		mov eax, dword ptr[x];
 		inc eax;
 		mov dword ptr[x], eax;
 
-		jmp main_188;
+		jmp go_while;
 
-	main_17F:
+	plus_y:
 		//y++
 		mov eax, dword ptr[y];
 		inc eax;
 		mov dword ptr[y], eax;
 
 
-	main_188:
-		jmp main_CF;
+	go_while:
+		jmp while_start;
 
-	main_18D:															// for 돌릴때 거기임
+	eax_1:															// for 돌릴때 거기임
 		mov dword ptr[i], 0;
-		jmp main_19F;
+		jmp cmp_i_for;
 
-	main_196:
+	plus_i:
 		mov eax, dword ptr[i];
 		inc eax;
 		mov dword ptr[i], eax;
 
-	main_19F:
+	cmp_i_for:
 		cmp dword ptr[i], 0xA;
-		jge main_1ED;
+		jge main_return;
 
 		mov dword ptr[j], 0;
-		jmp main_1B7;
+		jmp cmp_j_for;
 
-	main_1AE:
+	plus_j:
 		mov eax, dword ptr[j];
 		inc eax;
 		mov dword ptr[j], eax;
 
-	main_1B7:
+	cmp_j_for:
 		cmp dword ptr[j], 0xA;
-		jge main_1DE;
+		jge escape_n_puts;
 
 		imul eax, dword ptr[i], 60;
 		lea ecx, array[eax];
@@ -187,19 +188,19 @@ int main()
 		push edx;
 		call printf;
 		add esp, 8;
-		jmp main_1AE;
+		jmp plus_j;
 
-	main_1DE:
+	escape_n_puts:
 		lea edx, escape_n;
 		push edx;
-		call printf;
+		call puts;
 		add esp, 4;
-		jmp main_196;
+		jmp plus_i;
 
 
 
 
-	main_1ED:
+	main_return:
 		xor eax, eax;						// return 0
 		// 종료 지점
 	}
